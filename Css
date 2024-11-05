@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora de Calorias</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora de Calorias</h1>
+        <form id="caloriasForm">
+            <label for="alimento">Escolha o alimento:</label>
+            <select id="alimento">
+                <option value="maçã">Maçã - 121 Calorias (25g)</option>
+                <option value="cheetos">Cheetos - 255 Calorias (100g)</option>
+                <option value="salmão">Salmão - 6 Calorias (40g)</option>
+                <option value="alface">Alface - 110 Calorias (30g)</option>
+                <option value="sucrilhos">Sucrilhos Kellogg's - 135 Calorias (100g)</option>
+                <option value="carne">Carne Contra Filé - 85 Calorias (200g)</option>
+                <option value="coca-cola">Coca-Cola - 163 Calorias (36g)</option>
+                <option value="oreo">Oreo - 43 Calorias (50g)</option>
+                <option value="milho">Milho em Lata - 352 Calorias (1 carne de hambúrguer)</option>
+                <option value="hamburguer">Hamburguer Congelado - 144 Calorias (75g)</option>
+                <option value="sardinha">Sardinha em Lata - 84 Calorias (50g)</option>
+                <option value="feijão">Feijão Carioca - 252 Calorias (25g)</option>
+                <option value="doritos">Doritos - 114 Calorias (70g)</option>
+                <option value="grao-de-bico">Grão de Bico - 1550 Calorias (85g)</option>
+                <option value="miojo">Miojo - 117 Calorias (200g)</option>
+                <option value="leite">Leite Integral - 71 Calorias (200g)</option>
+                <option value="suco">Suco Kapo Uva - 187 Calorias (100g)</option>
+            </select>
+
+            <label for="quantidade">Quantidade (g ou unidade):</label>
+            <input type="number" id="quantidade" placeholder="Digite a quantidade" required>
+
+            <button type="submit">Calcular Calorias</button>
+        </form>
+
+        <div id="resultado">
+            <h2>Resultado:</h2>
+            <p id="resultadoTexto">Selecione um alimento e insira a quantidade.</p>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+h1 {
+    margin-bottom: 20px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+select, input[type="number"], button {
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+}
+
+button {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+#resultado {
+    margin-top: 20px;
+    font-size: 18px;
+}
+
+#resultadoTexto {
+    font-weight: bold;
+    color: #333;
+}const alimentos = {
+    maçã: {calorias: 121, porcao: 25},
+    cheetos: {calorias: 255, porcao: 100},
+    salmão: {calorias: 6, porcao: 40},
+    alface: {calorias: 110, porcao: 30},
+    sucrilhos: {calorias: 135, porcao: 100},
+    carne: {calorias: 85, porcao: 200},
+    "coca-cola": {calorias: 163, porcao: 36},
+    oreo: {calorias: 43, porcao: 50},
+    milho: {calorias: 352, porcao: 1},  // Considerando uma carne de hambúrguer como porção
+    hamburguer: {calorias: 144, porcao: 75},
+    sardinha: {calorias: 84, porcao: 50},
+    feijão: {calorias: 252, porcao: 25},
+    doritos: {calorias: 114, porcao: 70},
+    "grao-de-bico": {calorias: 1550, porcao: 85},
+    miojo: {calorias: 117, porcao: 200},
+    leite: {calorias: 71, porcao: 200},
+    suco: {calorias: 187, porcao: 100},
+};
+
+document.getElementById('caloriasForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const alimento = document.getElementById('alimento').value;
+    const quantidade = parseFloat(document.getElementById('quantidade').value);
+
+    if (!quantidade || quantidade <= 0) {
+        alert("Por favor, insira uma quantidade válida.");
+        return;
+    }
+
+    const dadosAlimento = alimentos[alimento];
+    const caloriasPorG = dadosAlimento.calorias / dadosAlimento.porcao;
+    const caloriasTotais = caloriasPorG * quantidade;
+
+    document.getElementById('resultadoTexto').textContent = 
+        `O alimento "${alimento}" tem aproximadamente ${caloriasTotais.toFixed(2)} calorias para ${quantidade}g/unidade.`;
+});
